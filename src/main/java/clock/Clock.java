@@ -33,6 +33,10 @@ public class Clock {
         employees.add(new Employee(employees.size()+1, firstName, lastName, email, phone));
     }
 
+    public ArrayList<Employee> getEmployee(){
+        return employees;
+    }
+
     public ArrayList<Employee> getEmployee(String name){
         ArrayList<Employee> empList = new ArrayList<Employee>();
         for(Employee emp:employees){
@@ -74,6 +78,28 @@ public class Clock {
         }
     }
 
+    private void displayAllEmployees(){
+        for(Employee emp: getEmployee()){
+            System.out.println(emp.toString());
+            System.out.println("\n");
+        };
+    }
+
+    private void employeeManager(Scanner scnr){
+        boolean exit = false;
+        while(!exit){
+            System.out.println("\n\n\n");
+            System.out.println("--------------------------------------------------");
+            System.out.println("            EMPLOYEE MANAGEMENT");
+            System.out.println("--------------------------------------------------");
+            System.out.println("1 = Create New Employee");
+            System.out.println("2 = Search Employee");
+            System.out.println("3 = View All Employees");
+            System.out.println("Q = Quit");
+            exit = seekInput("empMgmt", scnr);
+        }
+    }
+
 
     public void setQuit(boolean q){
         quit = q;
@@ -89,24 +115,42 @@ public class Clock {
         System.out.println("EMPLOYEE TIME CLOCK");
         System.out.println("BETA 1.0");
         System.out.println("--------------------------------------------------");
-        System.out.println("1 = Create New Employee");
-        System.out.println("2 = View Employee Information");
-        System.out.println("3 = Punch");
+        System.out.println("1 = Employee Manager");
+        System.out.println("2 = Punch");
         System.out.println("Q = Quit");
+    }
+
+
+    private boolean seekInput(String menu, Scanner scnr){
+        if(menu.equals("empMgmt")){
+            System.out.print("> ");
+            switch(scnr.nextLine().toUpperCase()){
+                case"1":
+                    createEmployee(scnr);
+                    break;
+                case"2":
+                    findEmployee(scnr);
+                    break;
+                case"3":
+                    displayAllEmployees();
+                    break;
+                case"Q":
+                    return true;
+                default:
+                    System.out.println("Wrong Input. Please Try Again...");
+                    break;
+            }
+        }
+        return false;
     }
 
     public void seekInput(Scanner scnr){
         System.out.print("> ");
         switch(scnr.nextLine().toUpperCase()){
             case"1":
-                System.out.println("Creating New Employee");
-                createEmployee(scnr);
+                employeeManager(scnr);
                 break;
             case"2":
-                System.out.println("Viewing Employee Information");
-                findEmployee(scnr);
-                break;
-            case"3":
                 System.out.println("Punch");
                 break;
             case"Q":
