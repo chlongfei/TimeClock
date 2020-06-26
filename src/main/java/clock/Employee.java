@@ -2,7 +2,6 @@ package clock;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Employee {
@@ -27,20 +26,35 @@ public class Employee {
         punchCards = new ArrayList<Punch>();
     }
 
-    public Employee(String newfirstName, String newlastName, String newEmail, String newPhoneNumber){
+    public Employee(String newFirstName, String newLastName, String newEmail, String newPhoneNumber){
         this();
-        firstName = newfirstName;
-        lastName = newlastName;
+        firstName = newFirstName;
+        lastName = newLastName;
         email = newEmail;
         phoneNumber = newPhoneNumber;
+    }
+
+    public Employee(int newId, String newFirstName, String newLastName, String newEmail, String newPhoneNumber){
+        this(newFirstName, newLastName, newEmail, newPhoneNumber);
+        id = newId;
     }
 
     public void setId(int newId){
         id = newId;
     }
+
+    public int getId(){
+        return id;
+    }
+
     public void setFirstName(String newFirstName){
         firstName = newFirstName;
     }
+
+    public String getFirstName(){
+        return firstName.toUpperCase();
+    }
+
     public void setLastName(String newLastName){
         lastName = newLastName;
     }
@@ -100,12 +114,20 @@ public class Employee {
         return bd.doubleValue() + " Minutes";
     }
 
+    private String getLastPunch(){
+        try{
+            return punchCards.get(punchCards.size()-1).getDate()
+                    + punchCards.get(punchCards.size()-1).getTime() ;
+        }catch(IndexOutOfBoundsException ioobe){
+            return "(none)";
+        }
+    }
+
     @Override
     public String toString() {
-        return "Employee <" + firstName + " " + lastName + "> :\n"
+        return "[ " + id + " ] Employee <" + firstName + " " + lastName + "> :\n"
                 + "Email: " + email + "\nPhone Number: " + phoneNumber + "\n"
-                + "Last Punch: " + punchCards.get(punchCards.size()-1).getDate() + " "
-                + punchCards.get(punchCards.size()-1).getTime() + "\n"
+                + "Last Punch: " +  getLastPunch() + "\n"
                 + "Total Hours Worked: " + getTotHoursWorked();
     }
 
