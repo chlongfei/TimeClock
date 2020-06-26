@@ -1,52 +1,101 @@
 package clock;
 
-
-import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 public class Punch {
 
+    private boolean clockedOut;
+    private String inDate;
+    private String inTime;
     private LocalDateTime clockIn;
+    private String outDate;
+    private String outTime;
     private LocalDateTime clockOut;
 
     public Punch() {
-        clockIn = LocalDateTime.now();
+        clockedOut = false;
+        clockIn = null;
         clockOut = null;
+        inDate = "";
+        inTime = "";
+        outDate = "";
+        outTime = "";
+        setClockIn();
     }
 
-    public void setClockIn(LocalDateTime clockIn) {
-        this.clockIn = clockIn;
+    public void setinDate(String newDate){
+        inDate = newDate;
     }
 
-    public void setClockOut(LocalDateTime clockOut){
-        this.clockOut = clockOut;
+    public void setInTime(String newTime){
+        inTime = newTime;
     }
 
+    public void setClockIn(LocalDateTime newClockIn) {
+        clockIn = newClockIn;
+        inDate = newClockIn.toLocalDate().toString();
+    }
+
+    public void setClockOut(LocalDateTime newClockOut){
+        clockOut = newClockOut;
+    }
+
+    public void setClockedOut(boolean newClockedOut){
+        clockedOut = newClockedOut;
+    }
+
+    public void setClockIn(){
+        clockIn = LocalDateTime.now();
+        inDate = clockIn.toLocalDate().toString();
+        inTime = clockIn.toLocalTime().toString();
+    }
 
     public void setClockOut(){
-        this.clockOut = LocalDateTime.now();
+        clockOut = LocalDateTime.now();
+        outDate = clockOut.toLocalDate().toString();
+        outTime = clockOut.toLocalTime().toString();
+        clockedOut = true;
+    }
+
+    public boolean isClockedOut(){
+        return clockedOut;
+    }
+
+    public String getDate(){
+        if(!clockedOut) {
+            return inDate;
+        }else{
+            return outDate;
+        }
+    }
+
+    public String getTime(){
+        if(!clockedOut) {
+            return inTime;
+        }else{
+            return outTime;
+        }
     }
 
     /* CALCULATE DURATIONS */
 
-    private double getInDays(){
+    double getInDays(){
         LocalDateTime durInSec = LocalDateTime.from(clockIn);
         return durInSec.until(clockOut, ChronoUnit.DAYS);
     }
 
-    private double getInHours(){
+    double getInHours(){
         LocalDateTime durInSec = LocalDateTime.from(clockIn);
         return durInSec.until(clockOut, ChronoUnit.HOURS);
     }
 
-    private double getInMinutes(){
+    double getInMinutes(){
         LocalDateTime durInSec = LocalDateTime.from(clockIn);
         return durInSec.until(clockOut, ChronoUnit.MINUTES);
     }
 
-    private double getInSeconds(){
+    double getInSeconds(){
         LocalDateTime durInSec = LocalDateTime.from(clockIn);
         return durInSec.until(clockOut, ChronoUnit.SECONDS);
     }
