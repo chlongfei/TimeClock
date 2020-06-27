@@ -1,6 +1,5 @@
 package clock;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Clock {
@@ -175,6 +174,19 @@ public class Clock {
         return false;
     }
 
+
+    private void punchClock(Scanner scnr){
+        System.out.println("\n\n\n");
+        System.out.println("--------------------------------------------------");
+        System.out.println("            EMPLOYEE SIGN-IN");
+        System.out.println("--------------------------------------------------");
+        System.out.print("PHONE NUMBER: ");
+        if(manager.createPunch(scnr.nextLine())){
+            System.out.println("PUNCH ACCEPTED");
+        }else{
+            System.out.println("PUNCH NOT ACCEPTED");
+        }
+    }
     /**
      * Text interface welcome screen
      */
@@ -200,7 +212,7 @@ public class Clock {
                 employeeManager(scnr);
                 break;
             case"2":
-                System.out.println("Punch");
+                punchClock(scnr);
                 break;
             case"0":
                 System.out.println("Quitting...");

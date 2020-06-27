@@ -2,6 +2,7 @@ package clock;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Employee {
@@ -145,7 +146,6 @@ public class Employee {
      */
     public String setPunch(){
         Punch newPunch = null;
-        System.err.println("<debug> Has Open Punch: " + hasOpenPunch());
         if(!hasOpenPunch()) {
             punchCards.add(new Punch());
             newPunch = punchCards.get(punchCards.size()-1);
@@ -205,7 +205,7 @@ public class Employee {
     private String getLastPunch(){
         try{
             return punchCards.get(punchCards.size()-1).getDate()
-                    + punchCards.get(punchCards.size()-1).getTime() ;
+                    + " " + punchCards.get(punchCards.size()-1).getTime();
         }catch(IndexOutOfBoundsException ioobe){
             return "(none)";
         }

@@ -172,4 +172,14 @@ public class EmployeeManager{
         return out;
     }
 
+    public boolean createPunch(String phone){
+        for(Employee indiv : new ArrayList<>(employeeMap.values())) {
+            if (indiv.getPhoneNumber().equals(phone)){
+                indiv.setPunch();
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
