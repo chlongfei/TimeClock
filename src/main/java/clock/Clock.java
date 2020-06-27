@@ -6,18 +6,114 @@ import java.util.Scanner;
 public class Clock {
 
     private boolean quit;
-    private ArrayList<Employee> employees;
+    private EmployeeManager manager;
 
+    /**
+     * Constructor - creates a new clock instance
+     */
     public Clock(){
         quit = false;
-        employees = new ArrayList<Employee>();
+        manager = new EmployeeManager();
 
     }
 
+    /**
+     * Sets quit value
+     * @param q boolean indicating if program should terminate
+     */
+    public void setQuit(boolean q){
+        quit = q;
+    }
+
+    /**
+     * @return quit value determining if program should terminate
+     */
+    public boolean getQuit(){
+        return quit;
+    }
+
+    /**
+     * Adds an employee to list of employees
+     * @param employee employee to add
+     */
     public void setEmployees(Employee employee){
-        employees.add(employee);
+        manager.addEmployee(employee);
     }
 
+
+    public void searchEmployee(Scanner scnr){
+            System.out.println("*********************************\n"
+                    + "EMPLOYEE SEARCH\n"
+                    +"*********************************");
+            System.out.println("1 = by ID");
+            System.out.println("2 = by First Name");
+            System.out.println("3 = by Last Name");
+            System.out.println("4 = by Email");
+            System.out.println("5 = by Phone Number");
+            System.out.println("0 = CANCEL");
+            int response = validateSelection(scnr);
+
+            if (response == 0){
+                return;
+            }else{
+                System.out.println(seekInputSearchEmp(response,scnr));
+            }
+    }
+
+
+    private String seekInputSearchEmp(int choice, Scanner scnr){
+        switch (choice) {
+            case 1:
+                System.out.print("ID: ");
+                break;
+            case 2:
+                System.out.print("First Name: ");
+                break;
+            case 3:
+                System.out.print("Last Name: ");
+                break;
+            case 4:
+                System.out.print("Email: ");
+                break;
+            case 5:
+                System.out.println("Phone Number:");
+                break;
+            default:
+                System.out.println("Invalid Selection.");
+                return null;
+        }
+        return manager.employeeSearch(choice, scnr.nextLine());
+    }
+
+    /**
+     * Accepts and validates user input
+     * @param scnr scanner for user input
+     * @return user selection
+     */
+    private int validateSelection(Scanner scnr){
+        System.out.print("> ");
+        String input = scnr.nextLine();
+        try{
+            int sel = Integer.parseInt(input);
+            return sel;
+        }catch(NumberFormatException nfe){
+            System.out.println("Invalid Selection");
+        }
+        return 0;
+    }
+
+
+    /**
+     * Displays all employees in text
+     */
+    public void showAllEmployees(){
+        System.out.println(manager.displayAllEmployees());
+    }
+
+    /**
+     * Creates a new employee profile
+     * @param scnr scanner for user input
+     */
     public void createEmployee(Scanner scnr){
         System.out.println("*********************************\n"
                             + "NEW EMPLOYEE CREATION UTIL.\n"
@@ -30,61 +126,13 @@ public class Clock {
         String email = scnr.nextLine();
         System.out.print("Phone: ");
         String phone = scnr.nextLine();
-        employees.add(new Employee(employees.size()+1, firstName, lastName, email, phone));
+        manager.createEmployee(firstName,lastName,email,phone);
     }
 
-    public ArrayList<Employee> getEmployee(){
-        return employees;
-    }
-
-    public ArrayList<Employee> getEmployee(String name){
-        ArrayList<Employee> empList = new ArrayList<Employee>();
-        for(Employee emp:employees){
-            if(emp.getFirstName().equals(name)){
-                empList.add(emp);
-            }
-        }
-        if(empList.isEmpty()){
-            return null;
-        }
-        return empList;
-    }
-
-    public Employee getEmployee(int id){
-        for(Employee emp:employees){
-            if(emp.getId() == id){
-                return emp;
-            }
-        }
-        return null;
-    }
-
-    public void findEmployee(Scanner scnr){
-        ArrayList<Employee> empList = null;
-        System.out.print("Search (ID, First Name): ");
-        String searchCri = scnr.nextLine();
-        try{
-            empList = new ArrayList<Employee>();
-            empList.add(getEmployee(Integer.parseInt(searchCri)));
-        }catch(NumberFormatException nfe){
-            empList = getEmployee(searchCri.toUpperCase());
-        }
-        if(empList  == null){
-            System.out.println("Employee Not Found");
-        }else{
-            for(Employee emp: empList){
-                System.out.println("\n" + emp.toString());
-            }
-        }
-    }
-
-    private void displayAllEmployees(){
-        for(Employee emp: getEmployee()){
-            System.out.println(emp.toString());
-            System.out.println("\n");
-        };
-    }
-
+    /**
+     * Text interface for employee management menus
+     * @param scnr scanner for user input
+     */
     private void employeeManager(Scanner scnr){
         boolean exit = false;
         while(!exit){
@@ -95,20 +143,40 @@ public class Clock {
             System.out.println("1 = Create New Employee");
             System.out.println("2 = Search Employee");
             System.out.println("3 = View All Employees");
-            System.out.println("Q = Quit");
-            exit = seekInput("empMgmt", scnr);
+            System.out.println("0 = CANCEL");
+            exit = seekInputEmpMenu(scnr);
         }
     }
 
-
-    public void setQuit(boolean q){
-        quit = q;
+    /**
+     * Handles user input and responses accordingly for employee manager
+     * @param scnr scanner for user input
+     * @return boolean value indicating if employee management menu should exit
+     */
+    private boolean seekInputEmpMenu(Scanner scnr){
+            System.out.print("> ");
+            switch(scnr.nextLine().toUpperCase()){
+                case"1":
+                    createEmployee(scnr);
+                    break;
+                case"2":
+                    searchEmployee(scnr);
+                    break;
+                case"3":
+                    showAllEmployees();
+                    break;
+                case"0":
+                    return true;
+                default:
+                    System.out.println("Wrong Input. Please Try Again...");
+                    break;
+            }
+        return false;
     }
 
-    public boolean getQuit(){
-        return quit;
-    }
-
+    /**
+     * Text interface welcome screen
+     */
     public void welcomeScrn(){
         System.out.println("\n\n\n");
         System.out.println("--------------------------------------------------");
@@ -117,33 +185,13 @@ public class Clock {
         System.out.println("--------------------------------------------------");
         System.out.println("1 = Employee Manager");
         System.out.println("2 = Punch");
-        System.out.println("Q = Quit");
+        System.out.println("0 = Quit");
     }
 
-
-    private boolean seekInput(String menu, Scanner scnr){
-        if(menu.equals("empMgmt")){
-            System.out.print("> ");
-            switch(scnr.nextLine().toUpperCase()){
-                case"1":
-                    createEmployee(scnr);
-                    break;
-                case"2":
-                    findEmployee(scnr);
-                    break;
-                case"3":
-                    displayAllEmployees();
-                    break;
-                case"Q":
-                    return true;
-                default:
-                    System.out.println("Wrong Input. Please Try Again...");
-                    break;
-            }
-        }
-        return false;
-    }
-
+    /**
+     * Handles uer input and responses accordingly for main user menu
+     * @param scnr scanner for user input
+     */
     public void seekInput(Scanner scnr){
         System.out.print("> ");
         switch(scnr.nextLine().toUpperCase()){
@@ -153,7 +201,7 @@ public class Clock {
             case"2":
                 System.out.println("Punch");
                 break;
-            case"Q":
+            case"0":
                 System.out.println("Quitting...");
                 quit = true;
                 break;
@@ -177,7 +225,6 @@ public class Clock {
             System.out.println(emp.toString());
         }
         theClock.setEmployees(emp);
-
 
 
         while(!theClock.getQuit()){

@@ -16,7 +16,9 @@ public class Employee {
     private String phoneNumber;
     private ArrayList<Punch> punchCards;
 
-
+    /**
+     * Constructor - initializes employee object with default values
+     */
     public Employee(){
         id = 0;
         firstName = "";
@@ -26,48 +28,104 @@ public class Employee {
         punchCards = new ArrayList<Punch>();
     }
 
+    /**
+     * Constructor - initializes employee object with employee profile values
+     * @param newFirstName employee first name
+     * @param newLastName employee last name
+     * @param newEmail employee email
+     * @param newPhoneNumber employee phone number
+     */
     public Employee(String newFirstName, String newLastName, String newEmail, String newPhoneNumber){
         this();
-        firstName = newFirstName;
-        lastName = newLastName;
-        email = newEmail;
-        phoneNumber = newPhoneNumber;
+        firstName = newFirstName.trim();
+        lastName = newLastName.trim();
+        email = newEmail.trim();
+        phoneNumber = newPhoneNumber.trim();
     }
 
+    /**
+     * Constructor - initializes employee object with employee profile values and employee id
+     * @param newId employee id
+     * @param newFirstName employee first name
+     * @param newLastName employee last name
+     * @param newEmail employee email
+     * @param newPhoneNumber employee phone number
+     */
     public Employee(int newId, String newFirstName, String newLastName, String newEmail, String newPhoneNumber){
         this(newFirstName, newLastName, newEmail, newPhoneNumber);
         id = newId;
     }
 
+    /**
+     * Sets employee id
+     * @param newId employee id
+     */
     public void setId(int newId){
         id = newId;
     }
 
+    /**
+     * @return employee id
+     */
     public int getId(){
         return id;
     }
 
+    /**
+     * Sets employee first name
+     * @param newFirstName
+     */
     public void setFirstName(String newFirstName){
-        firstName = newFirstName;
+        firstName = newFirstName.trim();
     }
 
+    /**
+     * @return employee first name
+     */
     public String getFirstName(){
-        return firstName.toUpperCase();
+        return firstName;
     }
 
+    /**
+     * Sets employee last name
+     * @param newLastName employee last name
+     */
     public void setLastName(String newLastName){
-        lastName = newLastName;
+        lastName = newLastName.trim();
     }
+
+    public String getLastName(){
+        return lastName;
+    }
+
+    /**
+     * Sets employee email
+     * @param newEmail employee email
+     */
     public void setEmail(String newEmail){
-        email = newEmail;
+        email = newEmail.trim();
     }
+
+    /**
+     * Sets employee phone number
+     * @param newPhoneNumber employee phone numebr
+     */
     public void setPhoneNumber(String newPhoneNumber){
-        phoneNumber = newPhoneNumber;
+        phoneNumber = newPhoneNumber.trim();
     }
+
+    /**
+     * Adds punch card to employee file
+     * @param punchCard employee punch card
+     */
     public void setPunchCards(Punch punchCard){
         punchCards.add(punchCard);
     }
 
+    /**
+     * Sets a punch in/out
+     * @return confirmation prompt of successful punch
+     */
     public String setPunch(){
         Punch newPunch = null;
         System.err.println("<debug> Has Open Punch: " + hasOpenPunch());
@@ -82,6 +140,10 @@ public class Employee {
         }
     }
 
+    /**
+     * Determines if a punch card is present that has not been closed
+     * @return boolean representing open punch card
+     */
     public boolean hasOpenPunch(){
         try{
             return !punchCards.get(punchCards.size()-1).isClockedOut();
@@ -91,6 +153,9 @@ public class Employee {
     }
 
 
+    /**
+     * @return string description of total hours worked
+     */
     public String getTotHoursWorked(){
         double hoursWorked = 0;
         for(Punch each:punchCards){
@@ -104,6 +169,9 @@ public class Employee {
         return bd.doubleValue() + "Hours";
     }
 
+    /**
+     * @return string description of total minutes worked
+     */
     public String getTotMinutesWorked(){
         double hoursWorked = 0;
         for(Punch each:punchCards){
@@ -114,6 +182,9 @@ public class Employee {
         return bd.doubleValue() + " Minutes";
     }
 
+    /**
+     * @return string description of the most recent punch
+     */
     private String getLastPunch(){
         try{
             return punchCards.get(punchCards.size()-1).getDate()
@@ -123,6 +194,9 @@ public class Employee {
         }
     }
 
+    /**
+     * @return employee profile description
+     */
     @Override
     public String toString() {
         return "[ " + id + " ] Employee <" + firstName + " " + lastName + "> :\n"
