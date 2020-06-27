@@ -7,13 +7,20 @@ import java.util.Map;
 public class EmployeeManager{
 
     private Map<Integer,Employee> employeeMap;
+    private int employeeCount;
 
     /**
      * Constructor - initiates the employee manager
      */
     public EmployeeManager(){
         employeeMap = new HashMap<>();
+        employeeCount = 0;
     }
+
+    public void setEmployeecount(int count){
+        employeeCount = count;
+    }
+
 
     /**
      * Creates a new employee profile
@@ -23,8 +30,8 @@ public class EmployeeManager{
      * @param phone employee phone
      */
     void createEmployee(String firstName, String lastName, String email, String phone){
-        int id = assignId();
-        employeeMap.put(id,new Employee(assignId(), firstName, lastName, email, phone));
+        employeeCount ++;
+        employeeMap.put(employeeCount,new Employee(employeeCount, firstName, lastName, email, phone));
     }
 
     /**
@@ -35,24 +42,10 @@ public class EmployeeManager{
         if(!idExists(employeeToAdd.getId())){
             employeeMap.put(employeeToAdd.getId(),employeeToAdd);
         }else{
-            int id = assignId();
-            employeeToAdd.setId(assignId());
-            employeeMap.put(id,employeeToAdd);
+            employeeCount++;
+            employeeToAdd.setId(employeeCount);
+            employeeMap.put(employeeCount,employeeToAdd);
         }
-    }
-
-    /**
-     * Assigns an id to employee - ensures no duplicates are present
-     * @return id integer
-     */
-    private int assignId(){
-        int proposedId = employeeMap.size();
-        boolean valid = false;
-        while(!valid){
-            valid = idExists(proposedId);
-            proposedId++;
-        }
-        return proposedId;
     }
 
     /**
@@ -70,22 +63,16 @@ public class EmployeeManager{
     /**
      * @returns string overview of all employees
      */
-     String displayAllEmployees(){
-        String outString = "";
-        for(Employee emp: new ArrayList<Employee>(employeeMap.values())){
-            outString += emp.toString() + "\n\n";
-        };
-        return outString;
-    }
-
-    /*
-                System.out.println("1 = by ID");
-            System.out.println("2 = by First Name");
-            System.out.println("3 = by Last Name");
-            System.out.println("4 = by Email");
-            System.out.println("5 = by Phone Number");
-     */
-
+     String displayAllEmployees() {
+         String outString = "";
+         for (Employee emp : new ArrayList<Employee>(employeeMap.values())) {
+             outString += emp.toString() + "\n\n";
+         }
+         if(outString.length() < 1){
+             return "(no employees)";
+         }
+         return outString;
+     }
 
     /**
      * Searches employee list for user requested employee
@@ -102,17 +89,20 @@ public class EmployeeManager{
             case 3:
                 return searchByName(2,searchCri);
             case 4:
-                System.err.print("Todo: make search by email");
-                break;
+                return searchByEmail(searchCri);
             case 5:
-                System.err.println("Todo: make search by phone");
-                break;
+                return searchByPhone(searchCri);
             default:
                 break;
         }
         return "";
     }
 
+    /**
+     * Searches employee list by id
+     * @param searchCri employee id
+     * @return employee profile
+     */
     private String searchByID(String searchCri){
          int id = 0;
          try{
@@ -127,6 +117,12 @@ public class EmployeeManager{
          }
     }
 
+    /**
+     * Searches employee list by either first or last name determined by the place value
+     * @param place indicates if first or last name should be used
+     * @param name name to be searched for
+     * @return employee provfiles
+     */
     private String searchByName(int place, String name){
         String out = "\n";
         for(Employee indiv : new ArrayList<>(employeeMap.values())){
@@ -143,5 +139,37 @@ public class EmployeeManager{
         return out;
     }
 
+    /**
+     * Searches employee list by employee email
+     * @param email employee email
+     * @return employee profile
+     */
+    private String searchByEmail(String email){
+        String out = "\n";
+        for(Employee indiv : new ArrayList<>(employeeMap.values())){
+            if(indiv.getEmail().toUpperCase().equals(email.toUpperCase())){
+                out += indiv.toString() + "\n\n";
+            }
+        }
+        if(out.length() < 1){
+            return "Employee Not Found";
+        }
+        return out;
+    }
+
+    /**
+     * Searches employee list by employee phone number
+     * @param phone employee phone number
+     * @return employee profile
+     */
+    private String searchByPhone(String phone){
+        String out = "\n";
+        for(Employee indiv : new ArrayList<>(employeeMap.values())) {
+            if (indiv.getPhoneNumber().equals(phone)) {
+                out += indiv.toString() + "\n\n";
+            }
+        }
+        return out;
+    }
 
 }

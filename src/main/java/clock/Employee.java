@@ -94,6 +94,9 @@ public class Employee {
         lastName = newLastName.trim();
     }
 
+    /**
+     * @return employee last name
+     */
     public String getLastName(){
         return lastName;
     }
@@ -107,11 +110,25 @@ public class Employee {
     }
 
     /**
+     * @return employee email
+     */
+    public String getEmail(){
+        return email;
+    }
+
+    /**
      * Sets employee phone number
      * @param newPhoneNumber employee phone numebr
      */
     public void setPhoneNumber(String newPhoneNumber){
         phoneNumber = newPhoneNumber.trim();
+    }
+
+    /**
+     * @return employee phone number
+     */
+    public String getPhoneNumber(){
+        return phoneNumber;
     }
 
     /**

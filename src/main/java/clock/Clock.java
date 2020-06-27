@@ -76,7 +76,7 @@ public class Clock {
                 System.out.print("Email: ");
                 break;
             case 5:
-                System.out.println("Phone Number:");
+                System.out.print("Phone Number:");
                 break;
             default:
                 System.out.println("Invalid Selection.");
@@ -127,6 +127,7 @@ public class Clock {
         System.out.print("Phone: ");
         String phone = scnr.nextLine();
         manager.createEmployee(firstName,lastName,email,phone);
+        System.out.println("Success!");
     }
 
     /**
@@ -213,20 +214,7 @@ public class Clock {
 
     public static void main(String[] args){
         Scanner scnr = new Scanner(System.in);
-
         Clock theClock = new Clock();
-
-
-        Employee emp = new Employee("John","Smith","jsmith@email.com","9992220202");
-        emp.setId(1);
-        System.err.println(emp.setPunch());
-        if(scnr.nextInt() == 1){
-            System.err.println(emp.setPunch());
-            System.out.println(emp.toString());
-        }
-        theClock.setEmployees(emp);
-
-
         while(!theClock.getQuit()){
                 theClock.welcomeScrn();
                 theClock.seekInput(scnr);
