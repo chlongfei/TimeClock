@@ -7,8 +7,26 @@
     <groupId>org.example</groupId>
     <artifactId>TimeClock</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.1</version>
+                <configuration>
+                    <mainClass>HelloFX</mainClass>
+                </configuration>
+            </plugin>
+
             <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
@@ -23,7 +41,6 @@
             <configuration>
                 <mainClass>clock.Clock</mainClass>
             </configuration>
-
         </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -35,6 +52,5 @@
             </plugin>
         </plugins>
     </build>
-
 
 </project>
