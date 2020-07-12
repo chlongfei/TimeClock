@@ -14,7 +14,7 @@ public class EmployeeManager{
      */
     public EmployeeManager(){
         employeeMap = new HashMap<>();
-        employeeCount = 0;
+        employeeCount = 1;
     }
 
     public void setEmployeecount(int count){
@@ -30,8 +30,12 @@ public class EmployeeManager{
      * @param phone employee phone
      */
     void createEmployee(String firstName, String lastName, String email, String phone){
-        employeeCount ++;
-        employeeMap.put(employeeCount,new Employee(employeeCount, firstName, lastName, email, phone));
+        try{
+            employeeMap.put(employeeCount,new Employee(employeeCount, firstName, lastName, email, phone));
+            employeeCount ++;
+        }catch(NullPointerException npe){
+        }
+
     }
 
     /**

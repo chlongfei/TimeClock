@@ -1,6 +1,7 @@
 package clock;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,7 +22,7 @@ public class ClockGui extends Application {
      */
     public ClockGui(){
         theClock = new Clock();
-        theController = new GuiController();
+        theController = new GuiController(this,theClock);
     }
 
     /**
@@ -29,8 +30,9 @@ public class ClockGui extends Application {
      */
      void scnMain (){
         BorderPane bp = new BorderPane();
-        Text programName = new Text(5.0,18.0,"Employee Time Clock (beta 1.0)");
-        programName.setFont(new Font(18));
+        bp.setPadding(new Insets(10));
+        Text programName = new Text(15.0,18.0,"Employee Time Clock (beta 1.0)");
+        programName.setFont(new Font(15));
         bp.setTop(programName);
         bp.setCenter(mainMenu());
         Scene scn = new Scene(bp,400,200);
@@ -45,8 +47,13 @@ public class ClockGui extends Application {
         stg.setScene(s);
     }
 
+    /**
+     * Generates the main menu option item area
+     * @return
+     */
     private VBox mainMenu(){
         VBox vb = new VBox();
+        vb.setStyle("-fx-padding: 10 0 0 0;");
         vb.alignmentProperty().set(Pos.TOP_CENTER);
         vb.getChildren().addAll(btnManageView());
         return vb;
@@ -58,7 +65,7 @@ public class ClockGui extends Application {
      */
     private Button btnManageView(){
         Button manageView = new Button("Employee Manager");
-        manageView.setOnAction(press -> new ManagerView(this,theClock,theController));
+        manageView.setOnAction(press -> theController.toEmployeeManager());
         return manageView;
     }
 
@@ -71,6 +78,7 @@ public class ClockGui extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Employee Time Clock - BETA");
+        primaryStage.resizableProperty().set(false);
         stg = primaryStage;
         scnMain();
         primaryStage.show();

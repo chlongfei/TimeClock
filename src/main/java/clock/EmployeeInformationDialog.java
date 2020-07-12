@@ -1,5 +1,7 @@
 package clock;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
@@ -8,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class EmployeeInformationDialog extends Dialog<Integer> {
+public class EmployeeInformationDialog extends Dialog<ButtonType> {
 
     private String firstName;
     private String lastName;
@@ -26,6 +28,7 @@ public class EmployeeInformationDialog extends Dialog<Integer> {
     public EmployeeInformationDialog() {
         super();
         createForm();
+        setTitle("Create New Employee");
 
     }
 
@@ -35,8 +38,9 @@ public class EmployeeInformationDialog extends Dialog<Integer> {
     private void createForm(){
         BorderPane bp = new BorderPane();
         Text prompt = new Text("NEW Employee Information");
-        prompt.setFont(new Font(12));
-        bp.setTop(prompt);
+        prompt.setFont(new Font(15));
+        Text note = new Text("All fields are required.");
+        bp.setTop(new VBox(prompt,note));
         bp.setLeft(createInputArea());
         getDialogPane().setContent(bp);
     }
@@ -58,10 +62,17 @@ public class EmployeeInformationDialog extends Dialog<Integer> {
     private Node createInputArea(){
         createInputFields();
         VBox vb = new VBox();
-        HBox fNameHBox = new HBox(new Label("First Name:"),firstNameField);
-        HBox lNameHBox = new HBox(new Label("Last Name:"), lastNameField);
-        HBox phoneHBox = new HBox(new Label("Phone Number:"), phoneField);
-        HBox emailHBox = new HBox(new Label("Email Address:"), emailField);
+        vb.setPadding(new Insets(10));
+        vb.setSpacing(10.0);
+        vb.setAlignment(Pos.CENTER_LEFT);
+        HBox fNameHBox = new HBox(new Label("First Name: "),firstNameField);
+        fNameHBox.setAlignment(Pos.BASELINE_RIGHT);
+        HBox lNameHBox = new HBox(new Label("Last Name: "), lastNameField);
+        lNameHBox.setAlignment(Pos.BASELINE_RIGHT);
+        HBox phoneHBox = new HBox(new Label("Phone Number: "), phoneField);
+        phoneHBox.setAlignment(Pos.BASELINE_RIGHT);
+        HBox emailHBox = new HBox(new Label("Email Address: "), emailField);
+        emailHBox.setAlignment(Pos.BASELINE_RIGHT);
         vb.getChildren().addAll(fNameHBox,lNameHBox,phoneHBox,emailHBox);
         setButtons();
         return vb;
@@ -79,8 +90,8 @@ public class EmployeeInformationDialog extends Dialog<Integer> {
 
     /**
      * Sets actions for the user buttons
-     * @param submit
-     * @param cancel
+     * @param submit button type
+     * @param cancel button type
      */
     private void setButtonActions(ButtonType submit, ButtonType cancel){
         Button submitBtn = (Button) getDialogPane().lookupButton(submit);
@@ -126,4 +137,7 @@ public class EmployeeInformationDialog extends Dialog<Integer> {
     String getEmail() {
         return email;
     }
+
+
+
 }
