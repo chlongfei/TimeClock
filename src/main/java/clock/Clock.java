@@ -125,8 +125,19 @@ public class Clock {
         String email = scnr.nextLine();
         System.out.print("Phone: ");
         String phone = scnr.nextLine();
-        manager.createEmployee(firstName,lastName,email,phone);
+        makeEmployee(firstName,lastName,email,phone);
         System.out.println("Success!");
+    }
+
+    /**
+     * Makes the employee profile
+     * @param firstName employee first name
+     * @param lastName employee last name
+     * @param email employee email
+     * @param phone employee phone number
+     */
+    void makeEmployee(String firstName, String lastName, String email, String phone){
+        manager.createEmployee(firstName,lastName,email,phone);
     }
 
     /**
