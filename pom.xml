@@ -39,7 +39,7 @@
                 </execution>
             </executions>
             <configuration>
-                <mainClass>clock.Clock</mainClass>
+                <mainClass>clock.ClockGui</mainClass>
             </configuration>
         </plugin>
             <plugin>
