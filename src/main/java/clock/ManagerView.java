@@ -1,5 +1,8 @@
 package clock;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -9,6 +12,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
+
+import java.time.LocalTime;
 
 
 public class ManagerView {
@@ -34,7 +40,8 @@ public class ManagerView {
         pageTitle.setFont(new Font(15));
         bp.setTop(pageTitle);
         bp.setLeft(managerMenus());
-        Scene scn = new Scene(bp,400,200);
+        bp.setBottom(liveClock());
+        Scene scn = new Scene(bp,500,300);
         gui.sendToScene(scn);
     }
 
@@ -44,18 +51,47 @@ public class ManagerView {
      */
     private VBox managerMenus(){
         EmployeeInformationDialog infoDialog;
-        Button newEmployeeBtn = new Button("Create New Employee");
-        newEmployeeBtn.setOnAction(pressed->popupCreateEmployee());
         Button backBtn = new Button("Back");
         backBtn.setOnAction(push->controller.toClockGui());
         VBox vb = new VBox();
         vb.setStyle("-fx-padding: 10 0 0 0;");
         vb.setSpacing(5);
-        vb.getChildren().addAll(newEmployeeBtn,backBtn);
+        vb.getChildren().addAll(createNewEmployeeButton(),backBtn);
         return vb;
     }
 
+    /**
+     * Creates a live clock
+     * @return text live clock
+     */
+    private Text liveClock(){
+        Text time = new Text();
+        time.setStyle("-fx-font-weight: bold; -fx-font-size: 13;");
+        Timeline clock = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            LocalTime currentTime = LocalTime.now();
+            time.setText("Current Time: " + currentTime.getHour() + ":" + currentTime.getMinute() + ":"
+                            + currentTime.getSecond());
+        }),
+                new KeyFrame(Duration.seconds(1))
+        );
+        clock.setCycleCount(Animation.INDEFINITE);
+        clock.play();
+        return time;
+    }
+
+
+
     /* CREATE NEW EMPLOYEE */
+
+    /**
+     * Creates "create new employee" button
+     * @return action button
+     */
+    private Button createNewEmployeeButton() {
+        Button newEmployeeBtn = new Button("Create New Employee");
+        newEmployeeBtn.setOnAction(pressed -> popupCreateEmployee());
+        return newEmployeeBtn;
+    }
 
     /**
      * Popup dialog allowing manager to input new employee information
@@ -99,6 +135,23 @@ public class ManagerView {
         alert.show();
     }
     /* --- */
+
+
+    /* SEARCH EMPLOYEE LIST */
+
+    /**
+     * Creates "search employee" action button
+     * @return search employee button
+     */
+    private Button createSearchEmployeeBtn(){
+        Button searchEmployeeBtn = new Button("Search Employee");
+        searchEmployeeBtn.setOnAction(push->popupSearchEmployee());
+        return searchEmployeeBtn;
+    }
+
+    private void popupSearchEmployee(){
+
+    }
 
 
 
