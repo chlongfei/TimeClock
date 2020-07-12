@@ -27,7 +27,7 @@
 hs_err_pid*
 
 # jfx lib
-src/main/resources/
+src/main/resources
 
 # mvn target folder
 target/
