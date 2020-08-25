@@ -15,6 +15,7 @@ public class ClockGui extends Application {
 
     private Clock theClock;
     private GuiController theController;
+    private EmployeeManager theManager;
     private Stage stg;
 
     /**
@@ -22,7 +23,8 @@ public class ClockGui extends Application {
      */
     public ClockGui(){
         theClock = new Clock();
-        theController = new GuiController(this,theClock);
+        theManager = new EmployeeManager();
+        theController = new GuiController(this,theClock,theManager);
     }
 
     /**

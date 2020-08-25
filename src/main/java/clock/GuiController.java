@@ -4,10 +4,12 @@ public class GuiController {
 
     private ClockGui theGui;
     private Clock theClock;
+    private EmployeeManager theManager;
 
-    GuiController(ClockGui gui, Clock clock){
+    GuiController(ClockGui gui, Clock clock, EmployeeManager manager){
         theGui = gui;
         theClock = clock;
+        theManager = manager;
     }
 
     void toEmployeeManager(){
@@ -17,6 +19,8 @@ public class GuiController {
     void toClockGui(){
         theGui.scnMain();
     }
+
+
 
 
 

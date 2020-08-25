@@ -16,6 +16,7 @@ public class EmployeeInformationDialog extends Dialog<ButtonType> {
     private String lastName;
     private String phone;
     private String email;
+    private String fieldParams;
 
     private TextField firstNameField;
     private TextField lastNameField;
@@ -110,8 +111,57 @@ public class EmployeeInformationDialog extends Dialog<ButtonType> {
         lastName = lastNameField.getText();
         phone = phoneField.getText();
         email = emailField.getText();
+        fieldParams = evalFormat();
         close();
     }
+
+    /**
+     * @return 1 if an first name entry exists, 0 otherwise
+     */
+    private String hasFirstName(){
+        if(!firstName.isEmpty()){
+            return "1";
+        }
+        return "0";
+    }
+    /**
+     * @return 1 if an last name entry exists, 0 otherwise
+     */
+    private String hasLastName(){
+        if(!lastName.isEmpty()){
+            return "1";
+        }
+        return "0";
+    }
+    /**
+     * @return 1 if an phone number entry exists, 0 otherwise
+     */
+    private String hasPhone(){
+        if(!phone.isEmpty()){
+            return "1";
+        }
+        return "0";
+    }
+    /**
+     * @return 1 if an email entry exists, 0 otherwise
+     */
+    private String hasEmail(){
+        if(!email.isEmpty()){
+            return "1";
+        }
+        return "0";
+    }
+
+    /**
+     * Evaluates the fields that user has filled, creates a representation of filled fields
+     * using 1 and 0
+     * @return string combination of 1 and 0 to indicate fields filled by user
+     */
+    private String evalFormat(){
+        return hasFirstName()+hasLastName()+hasPhone()+hasEmail();
+    }
+
+
 
     /**
      * @return employee first name
@@ -137,7 +187,26 @@ public class EmployeeInformationDialog extends Dialog<ButtonType> {
     String getEmail() {
         return email;
     }
+    /**
+     * @return field format representation
+     */
+    String getFieldParams(){
+        return fieldParams;
+    }
 
 
-
+    /**
+     * Dumps info in all fields
+     * @return string representing information entered in the fields
+     */
+    @Override
+    public String toString() {
+        return "EmployeeInformationDialog{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", field format='" + fieldParams + '\''+
+                '}';
+    }
 }

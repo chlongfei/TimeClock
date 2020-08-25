@@ -7,7 +7,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -41,7 +40,7 @@ public class ManagerView {
         bp.setTop(pageTitle);
         bp.setLeft(managerMenus());
         bp.setBottom(liveClock());
-        Scene scn = new Scene(bp,500,300);
+        Scene scn = new Scene(bp,400,200);
         gui.sendToScene(scn);
     }
 
@@ -56,7 +55,7 @@ public class ManagerView {
         VBox vb = new VBox();
         vb.setStyle("-fx-padding: 10 0 0 0;");
         vb.setSpacing(5);
-        vb.getChildren().addAll(createNewEmployeeButton(),backBtn);
+        vb.getChildren().addAll(createNewEmployeeButton(),createSearchEmployeeBtn(),backBtn);
         return vb;
     }
 
@@ -98,7 +97,7 @@ public class ManagerView {
      */
     private void popupCreateEmployee(){
         EmployeeInformationDialog infoDialog = new EmployeeInformationDialog();
-        ButtonType opt = infoDialog.showAndWait().get();
+        infoDialog.showAndWait().get();
         if(verifyAllFields(infoDialog)){
             clock.makeEmployee(infoDialog.getFirstName(), infoDialog.getLastName(), infoDialog.getEmail(),
                     infoDialog.getPhone());
@@ -149,8 +148,15 @@ public class ManagerView {
         return searchEmployeeBtn;
     }
 
+    /**
+     * Creates a input box for user to enter search parameters
+     */
     private void popupSearchEmployee(){
-
+        EmployeeInformationDialog infoDialog = new EmployeeInformationDialog();
+        infoDialog.showAndWait().get();
+        System.out.println(infoDialog.toString());
+        EmployeeSearchResultDialog empDialog = new EmployeeSearchResultDialog(controller,infoDialog);
+        empDialog.showAndWait().get();
     }
 
 
