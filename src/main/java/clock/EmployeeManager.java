@@ -35,7 +35,6 @@ public class EmployeeManager{
             employeeCount ++;
         }catch(NullPointerException npe){
         }
-
     }
 
     /**
@@ -50,6 +49,7 @@ public class EmployeeManager{
             employeeToAdd.setId(employeeCount);
             employeeMap.put(employeeCount,employeeToAdd);
         }
+
     }
 
     /**
@@ -184,6 +184,14 @@ public class EmployeeManager{
             }
         }
         return false;
+    }
+
+
+    /**
+     * @return map of employee profiles
+     */
+    Map getMap(){
+        return employeeMap;
     }
 
 }

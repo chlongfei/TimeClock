@@ -23,7 +23,7 @@ public class ClockGui extends Application {
      */
     public ClockGui(){
         theClock = new Clock();
-        theManager = new EmployeeManager();
+        theManager = theClock.getManager();
         theController = new GuiController(this,theClock,theManager);
     }
 
@@ -56,8 +56,9 @@ public class ClockGui extends Application {
     private VBox mainMenu(){
         VBox vb = new VBox();
         vb.setStyle("-fx-padding: 10 0 0 0;");
+        vb.setSpacing(5);
         vb.alignmentProperty().set(Pos.TOP_CENTER);
-        vb.getChildren().addAll(btnManageView());
+        vb.getChildren().addAll(btnManageView(),btnClose());
         return vb;
     }
 
@@ -69,6 +70,16 @@ public class ClockGui extends Application {
         Button manageView = new Button("Employee Manager");
         manageView.setOnAction(press -> theController.toEmployeeManager());
         return manageView;
+    }
+
+    /**
+     * Close program button
+     * @return Buttons to enter close program
+     */
+    private Button btnClose(){
+        Button closeBtn = new Button("Quit");
+        closeBtn.setOnAction(press -> stg.close());
+        return closeBtn;
     }
 
 

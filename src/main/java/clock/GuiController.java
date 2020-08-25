@@ -20,6 +20,10 @@ public class GuiController {
         theGui.scnMain();
     }
 
+    EmployeeManager getTheManager(){
+        return theManager;
+    }
+
 
 
 

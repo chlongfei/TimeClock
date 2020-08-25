@@ -7,8 +7,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public class EmployeeInformationDialog extends Dialog<ButtonType> {
 
@@ -26,10 +24,10 @@ public class EmployeeInformationDialog extends Dialog<ButtonType> {
     private static final String APPLYTXT = "Apply";
     private static final String CANCELTXT = "Cancel";
 
-    public EmployeeInformationDialog() {
+    public EmployeeInformationDialog(String name) {
         super();
         createForm();
-        setTitle("Create New Employee");
+        setTitle(name);
 
     }
 
@@ -38,10 +36,6 @@ public class EmployeeInformationDialog extends Dialog<ButtonType> {
      */
     private void createForm(){
         BorderPane bp = new BorderPane();
-        Text prompt = new Text("NEW Employee Information");
-        prompt.setFont(new Font(15));
-        Text note = new Text("All fields are required.");
-        bp.setTop(new VBox(prompt,note));
         bp.setLeft(createInputArea());
         getDialogPane().setContent(bp);
     }

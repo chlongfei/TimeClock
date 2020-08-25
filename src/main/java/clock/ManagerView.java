@@ -7,6 +7,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -96,7 +98,7 @@ public class ManagerView {
      * Popup dialog allowing manager to input new employee information
      */
     private void popupCreateEmployee(){
-        EmployeeInformationDialog infoDialog = new EmployeeInformationDialog();
+        EmployeeInformationDialog infoDialog = new EmployeeInformationDialog("Create Employee");
         infoDialog.showAndWait().get();
         if(verifyAllFields(infoDialog)){
             clock.makeEmployee(infoDialog.getFirstName(), infoDialog.getLastName(), infoDialog.getEmail(),
@@ -152,11 +154,12 @@ public class ManagerView {
      * Creates a input box for user to enter search parameters
      */
     private void popupSearchEmployee(){
-        EmployeeInformationDialog infoDialog = new EmployeeInformationDialog();
-        infoDialog.showAndWait().get();
-        System.out.println(infoDialog.toString());
-        EmployeeSearchResultDialog empDialog = new EmployeeSearchResultDialog(controller,infoDialog);
-        empDialog.showAndWait().get();
+        EmployeeInformationDialog infoDialog = new EmployeeInformationDialog("Search Employee");
+        ButtonType btnType = infoDialog.showAndWait().get();
+        if(!btnType.equals(ButtonBar.ButtonData.CANCEL_CLOSE)) {
+            EmployeeSearchResultDialog empDialog = new EmployeeSearchResultDialog(controller, infoDialog);
+            empDialog.showAndWait().get();
+        }
     }
 
 

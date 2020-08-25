@@ -235,6 +235,11 @@ public class Clock {
         }
     }
 
+
+    EmployeeManager getManager(){
+        return manager;
+    }
+
     public static void main(String[] args){
         Scanner scnr = new Scanner(System.in);
         Clock theClock = new Clock();
@@ -242,10 +247,6 @@ public class Clock {
                 theClock.welcomeScrn();
                 theClock.seekInput(scnr);
         }
-
-
-
-
 
     }
 

@@ -8,7 +8,6 @@ public class EmployeeSearchResultDialog extends Dialog<ButtonType> {
 
     private static final String CLOSETXT = "Close";
     private GuiController theController;
-    private EmployeeInformationDialog searchParam;
 
     public EmployeeSearchResultDialog(GuiController ctrl,EmployeeInformationDialog info){
         super();
@@ -16,7 +15,8 @@ public class EmployeeSearchResultDialog extends Dialog<ButtonType> {
         setButtons();
         createDisplay();
         setTitle("Search Results");
-        doSearch(info.getFieldParams());
+        new EmployeeSearch(theController.getTheManager(), info);
+        //doSearch(info.getFieldParams());
 
     }
 
