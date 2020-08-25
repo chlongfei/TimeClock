@@ -1,9 +1,6 @@
 package clock;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -11,45 +8,20 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 
-public class EmployeeSearchResultDialog extends Dialog<ButtonType> {
+public class EmployeeShowAllDialog extends Dialog<ButtonType> {
 
     private static final String CLOSETXT = "Close";
     private GuiController theController;
-    private EmployeeSearch search;
+    private ArrayList<Employee> theList;
 
-    EmployeeSearchResultDialog(GuiController ctrl,EmployeeInformationDialog info) throws EmployeeNotFoundException{
+    EmployeeShowAllDialog(GuiController ctrl) {
         super();
-        search = null;
+        theList = null;
         theController = ctrl;
-        doSearch(info);
+        setButtons();
+        setTitle("Employee Master List");
         getDialogPane().setPrefWidth(800);
-    }
-
-    /**
-     * Performs the search
-     * @param info instance of EmployeeInformationDialog collecting search parameters
-     */
-    private void doSearch(EmployeeInformationDialog info)throws EmployeeNotFoundException{
-        try{
-            search = new EmployeeSearch(theController.getTheManager(), info);
-            setButtons();
-            setTitle("Search Results");
-            createDisplay();
-        }catch(EmployeeNotFoundException enfe){
-            showENFError();
-            throw new EmployeeNotFoundException();
-        }
-    }
-
-    /**
-     * Displays error prompt if employee is not found
-     */
-    private void showENFError(){
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Employee Not Found");
-        alert.setContentText("The employee you're trying to locate is not in the database." +
-                "\nPlease review your parameters and try again.");
-        alert.show();
+        createDisplay();
     }
 
     /**
@@ -68,7 +40,6 @@ public class EmployeeSearchResultDialog extends Dialog<ButtonType> {
     private void setButtonActions(ButtonType close){
         Button closeBtn = (Button) getDialogPane().lookupButton(close);
         closeBtn.setOnAction(push->close());
-
     }
 
     /**
@@ -78,7 +49,7 @@ public class EmployeeSearchResultDialog extends Dialog<ButtonType> {
         VBox vb = new VBox();
         vb.setStyle("-fx-padding: 10 10 10 10;");
         vb.setSpacing(5);
-        Text pageTitle = new Text(15.0,18.0,"Results:");
+        Text pageTitle = new Text(15.0,18.0,"Employee List:");
         pageTitle.setFont(new Font(15));
         vb.getChildren().addAll(pageTitle,createResultTable());
         getDialogPane().setContent(vb);
@@ -111,7 +82,7 @@ public class EmployeeSearchResultDialog extends Dialog<ButtonType> {
      * @param tbv TableView table to populate
      */
     private void populateTable(TableView tbv){
-        ArrayList<Employee> resultList = search.getSearchResults();
+        ArrayList<Employee> resultList = new ArrayList<Employee>(theController.getTheManager().getMap().values());
         for(Employee emp: resultList) {
             tbv.getItems().add(emp);
         }

@@ -171,6 +171,8 @@ public class Employee {
 
 
     /**
+     * Calculates total employee has worked, if value too small for hours, minutes will be
+     * returned instead
      * @return string description of total hours worked
      */
     public String getTotHoursWorked(){
