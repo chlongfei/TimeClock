@@ -1,10 +1,13 @@
 package clock;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -42,6 +45,17 @@ public class ClockGui extends Application {
     }
 
     /**
+     * Sets global key listener for ESC key - sends user to home screen (Clock GUI)
+     */
+    private void setEventHandler() {
+        stg.addEventHandler(javafx.scene.input.KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode().equals(KeyCode.ESCAPE)) {
+                theController.toClockGui();
+            }
+        });
+    }
+
+    /**
      * Sets user interface output to user
      * @param s scene to output to user
      */
@@ -58,7 +72,7 @@ public class ClockGui extends Application {
         vb.setStyle("-fx-padding: 10 0 0 0;");
         vb.setSpacing(5);
         vb.alignmentProperty().set(Pos.TOP_CENTER);
-        vb.getChildren().addAll(btnManageView(),btnClose());
+        vb.getChildren().addAll(btnManageView(),btnSelfServeUser(),btnClose());
         return vb;
     }
 
@@ -73,6 +87,16 @@ public class ClockGui extends Application {
     }
 
     /**
+     * Self-Serve User Mode program button
+     * @return Buttons to enter close program
+     */
+    private Button btnSelfServeUser(){
+        Button ssuBtn = new Button("User Self Sign-In");
+        ssuBtn.setOnAction(press -> theController.toUser());
+        return ssuBtn;
+    }
+
+    /**
      * Close program button
      * @return Buttons to enter close program
      */
@@ -82,7 +106,12 @@ public class ClockGui extends Application {
         return closeBtn;
     }
 
-
+    /**
+     * @return window stage
+     */
+    Stage getStg() {
+        return stg;
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -93,7 +122,9 @@ public class ClockGui extends Application {
         primaryStage.setTitle("Employee Time Clock - BETA");
         primaryStage.resizableProperty().set(false);
         stg = primaryStage;
+        setEventHandler();
         scnMain();
         primaryStage.show();
     }
+
 }

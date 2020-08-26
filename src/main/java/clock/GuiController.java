@@ -1,5 +1,12 @@
 package clock;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+
+import java.security.Key;
+
 public class GuiController {
 
     private ClockGui theGui;
@@ -15,8 +22,12 @@ public class GuiController {
     void toEmployeeManager(){
         new ManagerView(theGui,theClock,this);
     }
-
+    void toUser(){
+        new UserView(theGui,theClock,this);
+        theGui.getStg().setFullScreen(true);
+    }
     void toClockGui(){
+        theGui.getStg().setFullScreen(false);
         theGui.scnMain();
     }
 

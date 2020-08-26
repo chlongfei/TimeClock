@@ -4,6 +4,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,9 +24,13 @@ public class EmployeeInformationDialog extends Dialog<ButtonType> {
 
     private static final String APPLYTXT = "Apply";
     private static final String CANCELTXT = "Cancel";
+    private  Button submitBtn;
+    private Button cancelBtn;
 
     public EmployeeInformationDialog(String name) {
         super();
+        submitBtn = null;
+        cancelBtn = null;
         createForm();
         setTitle(name);
 
@@ -48,6 +53,26 @@ public class EmployeeInformationDialog extends Dialog<ButtonType> {
         lastNameField = new TextField();
         phoneField = new TextField();
         emailField = new TextField();
+        firstNameField.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                    lastNameField.requestFocus();
+                }
+            });
+        lastNameField.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                    phoneField.requestFocus();
+                }
+            });
+        phoneField.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                emailField.requestFocus();
+            }
+        });
+        emailField.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                submitBtn.fire();
+                }
+            });
     }
 
     /**
@@ -89,8 +114,8 @@ public class EmployeeInformationDialog extends Dialog<ButtonType> {
      * @param cancel button type
      */
     private void setButtonActions(ButtonType submit, ButtonType cancel){
-        Button submitBtn = (Button) getDialogPane().lookupButton(submit);
-        Button cancelBtn = (Button) getDialogPane().lookupButton(cancel);
+        submitBtn = (Button) getDialogPane().lookupButton(submit);
+        cancelBtn = (Button) getDialogPane().lookupButton(cancel);
 
         submitBtn.setOnAction(push->collectValues());
         cancelBtn.setOnAction(push->close());

@@ -10,23 +10,43 @@ public class EmployeeSearch{
     private EmployeeInformationDialog empInfo;
     private ArrayList<Employee> searchResults;
 
+    private String searchForFirstName;
+    private String searchForLastName;
+    private String searchForEmail;
+    private String searchForPhone;
+
 
 
     private EmployeeSearch(){
         employeeMap = null;
         empInfo = null;
         searchResults = new ArrayList<Employee>();
+        searchForFirstName = "";
+        searchForLastName = "";
+        searchForEmail = "";
+        searchForPhone = "";
     }
 
 
+    EmployeeSearch(EmployeeManager eManager, int searchBy, String keyword)throws EmployeeNotFoundException{
+        this();
+        employeeMap = eManager.getMap();
+        assignKeyword(searchBy,keyword);
+        createSearchSource();
+        callSearch(searchBy);
+    }
 
     EmployeeSearch(EmployeeManager eManager, EmployeeInformationDialog employeeSearchParameters) throws EmployeeNotFoundException{
         this();
         employeeMap = eManager.getMap();
         empInfo = employeeSearchParameters;
+        searchForFirstName = empInfo.getFirstName();
+        searchForLastName = empInfo.getLastName();
+        searchForEmail = empInfo.getEmail();
+        searchForPhone = empInfo.getPhone();
         createSearchSource();
         doSearch();
-        System.out.println("Results:\n" + searchResults);
+
     }
 
     /**
@@ -41,7 +61,6 @@ public class EmployeeSearch{
      */
     private void doSearch() throws EmployeeNotFoundException{
         for(int pl = 0; pl < 4; pl++) {
-            System.err.println(hasParamAt(pl));
             if(hasParamAt(pl)){
                 callSearch(pl);
             }
@@ -66,22 +85,41 @@ public class EmployeeSearch{
      * @param search search parameter choice
      */
     private void callSearch(int search) throws EmployeeNotFoundException{
-            switch (search) {
-                case 0:
-                    searchByFirstName();
-                    break;
-                case 1:
-                    searchByLastName();
-                    break;
-                case 2:
-                    searchByPhone();
-                    break;
-                case 3:
-                    searchByEmail();
-                    break;
-                default:
-                    throw new EmployeeNotFoundException("Employee Not Found");
-            }
+        switch (search) {
+            case 0:
+                searchByFirstName();
+                break;
+            case 1:
+                searchByLastName();
+                break;
+            case 2:
+                searchByPhone();
+                break;
+            case 3:
+                searchByEmail();
+                break;
+            default:
+                throw new EmployeeNotFoundException("Employee Not Found");
+        }
+    }
+
+    private void assignKeyword(int search, String keyword){
+        switch (search) {
+            case 0:
+                searchForFirstName = keyword;
+                break;
+            case 1:
+                searchForLastName = keyword;
+                break;
+            case 2:
+                searchForPhone = keyword;
+                break;
+            case 3:
+                searchForEmail = keyword;
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -91,13 +129,13 @@ public class EmployeeSearch{
     private void searchByFirstName() throws EmployeeNotFoundException{
         ArrayList<Employee> tmpEmployeeList = new ArrayList<Employee>();
         for(int e = 0; e < searchResults.size(); e++) {
-            if (searchResults.get(e).getFirstName().toLowerCase().equals(empInfo.getFirstName().toLowerCase())) {
+            if (searchResults.get(e).getFirstName().toLowerCase().equals(searchForFirstName.toLowerCase())) {
                 tmpEmployeeList.add(employeeMap.get(e+1));
             }
         }
         if (tmpEmployeeList.isEmpty()) {
             searchResults = null;
-            throw new EmployeeNotFoundException("Employee " + '"' + empInfo.getFirstName() + '"' + " Was Not Found.");
+            throw new EmployeeNotFoundException("Employee " + '"' + searchForFirstName + '"' + " Was Not Found.");
 
         }else {
             searchResults = tmpEmployeeList;
@@ -112,13 +150,13 @@ public class EmployeeSearch{
     private void searchByLastName() throws EmployeeNotFoundException{
         ArrayList<Employee> tmpEmployeeList = new ArrayList<Employee>();
         for(int e = 0; e < searchResults.size(); e++) {
-            if (searchResults.get(e).getLastName().toLowerCase().equals(empInfo.getLastName().toLowerCase())) {
+            if (searchResults.get(e).getLastName().toLowerCase().equals(searchForLastName.toLowerCase())) {
                 tmpEmployeeList.add(employeeMap.get(e+1));
             }
         }
         if (tmpEmployeeList.isEmpty()) {
             searchResults = null;
-            throw new EmployeeNotFoundException("Employee " + '"' + empInfo.getLastName() + '"' + " Was Not Found.");
+            throw new EmployeeNotFoundException("Employee " + '"' + searchForLastName + '"' + " Was Not Found.");
 
         }else {
             searchResults = tmpEmployeeList;
@@ -133,13 +171,13 @@ public class EmployeeSearch{
     private void searchByPhone() throws EmployeeNotFoundException{
         ArrayList<Employee> tmpEmployeeList = new ArrayList<Employee>();
         for(int e = 0; e < searchResults.size(); e++) {
-            if (searchResults.get(e).getPhoneNumber().equals(empInfo.getPhone())) {
+            if (searchResults.get(e).getPhoneNumber().equals(searchForPhone)) {
                 tmpEmployeeList.add(employeeMap.get(e+1));
             }
         }
         if (tmpEmployeeList.isEmpty()) {
             searchResults = null;
-            throw new EmployeeNotFoundException("Employee " + '"' + empInfo.getPhone() + '"' + " Was Not Found.");
+            throw new EmployeeNotFoundException("Employee " + '"' + searchForPhone + '"' + " Was Not Found.");
 
         }else {
             searchResults = tmpEmployeeList;
@@ -154,13 +192,13 @@ public class EmployeeSearch{
     private void searchByEmail() throws EmployeeNotFoundException{
         ArrayList<Employee> tmpEmployeeList = new ArrayList<Employee>();
         for(int e = 0; e < searchResults.size(); e++) {
-            if (searchResults.get(e).getEmail().equals(empInfo.getEmail())) {
+            if (searchResults.get(e).getEmail().equals(searchForEmail)) {
                 tmpEmployeeList.add(employeeMap.get(e+1));
             }
         }
         if (tmpEmployeeList.isEmpty()) {
             searchResults = null;
-            throw new EmployeeNotFoundException("Employee " + '"' + empInfo.getEmail() + '"' + " Was Not Found.");
+            throw new EmployeeNotFoundException("Employee " + '"' + searchForEmail + '"' + " Was Not Found.");
 
         }else {
             searchResults = tmpEmployeeList;
